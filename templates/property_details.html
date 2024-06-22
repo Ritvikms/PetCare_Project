@@ -1,0 +1,159 @@
+{% set title = "Property Details" %}
+{% set curPage = "Property" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<section>
+  <div class="content container bg-light py-5 px-4 mb-5">
+    <h4 class="text-center">Property Details</h4>
+    <div class="border bg-white p-4">
+
+      <div class="d-flex justify-content-between align-items-center mb-3 px-4">
+        <div>
+          <h5>{{property["property_name"]}}</h5>
+          <div class="mb-2">
+            <i class="fa fa-location-arrow text-danger fa-fw"></i>
+            {{property["city"]}}, {{property["country"][0]["country_name"]}}
+          </div>
+          <div class="mb-3">
+            <i class="fa fa-star text-danger"></i> {{'New' if ratings["propertyRating"] == 0 else ratings["propertyRating"] }}
+            <span>( {{ratings["count"] }} reviews )</span>
+          </div>
+        </div>
+        <div class="host-detail text-center1">
+          <button class="btn btn-sm btn-outline-success mb-2"><i class="fa fa-check-square"></i> Verified</button>
+          <h6><span class="text-secondary">Hosted by</span> {{property["host"][0]["name"]}}</h6>
+          <div class="mb-1">Contact : {{property["host"][0]["phone"]}} / Email : {{property["host"][0]["email"]}}</div>
+        </div>
+      </div>
+
+      <div class="row mb-5">
+        <div class="col-sm-7">
+          <img src="../../static/property/{{property['image_filename']}}" alt="" style="width:100%;height:320px;">
+        </div>
+        <div class="col-sm-5">
+          <div class="p-4">
+            <div class="d-flex align-items-center gap-4 mb-1">
+              <div class="d-flex align-items-center gap-2">
+                <h5>$ {{'%0.2f '% property["rate_per_night"]|float}}</h5>
+                <small>(Per Night)</small>
+              </div>
+              <div>
+                <h5>Guests : {{property["max_guest"]}} <small>(persons)</small></h5>
+              </div>
+            </div>
+
+            <form action="/check-availability/" method="post" class="border p-3" id="checkAvailability">
+              <div class="row mb-3">
+                <div class="col-6">
+                  <label for="check_in" class="form-label">Check in</label>
+                  <input type="date" min="{{tomorrow}}" name="check_in" id="check_in" class="form-control" required>
+                </div>
+                <div class="col-6">
+                  <label for="check_out" class="form-label">Check out</label>
+                  <input type="date" onchange="calDateDiff(this.value)" min="{{tomorrow}}" name="check_out"
+                    id="check_out" class="form-control" required>
+                </div>
+              </div>
+              <div class="mb-4">
+                <label for="guests" class="form-label">Guests</label>
+                <input type="number" min="1" max="{{property['max_guest']}}" name="guests" id="guests"
+                  class="form-control" required>
+              </div>
+              {% if session["role"] == "User" %}
+              
+              <input type="hidden" id="property_id" name="property_id" value="{{property['_id']}}">
+              <input type="hidden" id="property_rate" name="property_rate" value="{{property['rate_per_night']}}">
+              <input type="hidden" id="nights_count" name="nights_count" value="">
+              <button type="submit" class="btn btn-sm btn-theme-primary w-100">Check Availability</button>
+              
+              
+              {% else %}
+              <a href="/user-login/" class="btn btn-sm btn-warning w-100">Please login to check availability</a>
+              {% endif %}
+            </form>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="property-details mb-5">
+
+        <div class="property-desc mb-5 ">
+          <h5 class="mb-2">About Space</h5>
+          <div class="test-class p-3" style="max-height:200px;overflow-y:auto;">
+            {{property["property_description"] | safe}}
+          </div>
+        </div>
+
+        <div class="about-space mb-5">
+          <h5 class="mb-2">Amenities</h5>
+          <div class="p-3" style="max-height:200px;overflow-y:auto;">
+            {% set amenities = property["amenities"].split(',') %}
+            {% for amt in amenities %}
+            <ul class="list-unstyled">
+              <li><i class="fa fa-arrow-alt-circle-right me-2 text-danger"></i> {{amt}}</li>
+            </ul>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="about-space mb-5">
+          <h5 class="mb-2">Ratings & Reviews</h5>
+          <div class="p-3" style="max-height:600px;overflow-y:auto;">
+            {% if not reviews %}
+            <h6 class="text-danger">Sorry! no reviews yet</h6>
+            {% endif %}
+            {% for review in reviews %}
+            <div class="border p-2 mb-2">
+              <div class="star-rating mb-2">
+                <input type="radio" id="5-stars_{{loop.index}}" name="rating_{{loop.index}}" value="5" {{ 'checked' if
+                  review['rating']==5 else '' }} />
+                <label for="5-stars" class="star">&#9733;</label>
+                <input type="radio" id="4-stars_{{loop.index}}" name="rating_{{loop.index}}" value="4" {{ 'checked' if
+                  review['rating']==4 else '' }} />
+                <label for="4-stars" class="star">&#9733;</label>
+                <input type="radio" id="3-stars_{{loop.index}}" name="rating_{{loop.index}}" value="3" {{ 'checked' if
+                  review['rating']==3 else '' }} />
+                <label for="3-stars" class="star">&#9733;</label>
+                <input type="radio" id="2-stars_{{loop.index}}" name="rating_{{loop.index}}" value="2" {{ 'checked' if
+                  review['rating']==2 else '' }} />
+                <label for="2-stars" class="star">&#9733;</label>
+                <input type="radio" id="1-stars_{{loop.index}}" name="rating_{{loop.index}}" value="1" {{ 'checked' if
+                  review['rating']==1 else '' }} />
+                <label for="1-star" class="star">&#9733;</label>
+              </div>
+              <blockquote><q>{{review['review']}}</q></blockquote>
+              <em class="ps-4">- {{review["user"][0]["fullname"]}}</em>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}
+
+{% block script%}
+<script>
+  function calDateDiff(endDate) {
+    
+    var start_date = document.getElementById("check_in").value;
+    var property_rate = document.getElementById("property_rate").value;
+    var end_date = endDate;
+
+    var date1 = new Date(start_date);
+    var date2 = new Date(end_date);
+    var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+    var numberOfNights = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    document.getElementById("nights_count").value = numberOfNights
+   
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% set title = "User Login" %}
+{% set curPage = "userLogin" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="content container">
+  <div class="d-flex  flex-column gap-4 justify-content-center align-items-center" style="height: 80vh;">
+    <h5 class="text-center text-danger">User Login</h5>
+    <div class="card" style="width: 28rem;">
+      <div class="card-body bg-light">
+        <h6 class="text-danger text-center">{{error_msg}}</h6>
+        <form action="{{request.uri}}" method="post">
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" name="email" id="email" required>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" name="password" id="password" required>
+          </div>
+          <button class="btn btn-secondary w-100">Login</button>
+
+        </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% set title = "User Registration" %}
+{% set curPage = "userReg" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="content container">
+  <div class="d-flex flex-column justify-content-center align-items-center" style="height: 100vh;">
+    <h5 class="text-center text-danger">User Registration</h5>
+    <div class="card" style="width: 28rem;">
+      <div class="card-body">
+        <p class="text-center border-bottom pb-2">Already Registered? <a href="/user-login/">Login</a> here</p>
+        <form action="{{request.uri}}" method="post" id="userRegistration">
+
+          <div class="mb-3">
+            <label for="fullname" class="form-label required">Full Name</label>
+            <input type="text" class="form-control form-control-sm" name="fullname" id="fullname" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label required">Email</label>
+            <input type="email" class="form-control form-control-sm" name="email" id="email" required>
+          </div>
+          <div class="mb-3">
+            <label for="contact_no" class="form-label required">Contact No</label>
+            <input type="text" class="form-control form-control-sm" name="contact_no" id="contact_no" required>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label required">Password</label>
+            <input type="password" class="form-control form-control-sm" name="password" id="password" required>
+          </div>
+          <div class="mb-3">
+            <label for="confirm_password" class="form-label required">Confirm Password</label>
+            <input type="password" class="form-control form-control-sm" name="confirm_password" id="confirm_password" required>
+          </div>
+          <button type="submit" class="btn btn-theme-primary w-100">Register</button>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+{% endblock %}

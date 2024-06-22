@@ -1,0 +1,30 @@
+{% set title = "Dashboard" %}
+{% set curPage = "Dashboard" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="content container">
+  <div class="border p-4 m-4">
+    <div class="text-center mb-4">
+      <h4 class="mb-4">Welcome to PetCare</h4>
+      <h5 class="text-success-emphasis">
+        <q>Pampering Pets, Delighting Owners – Because Every Pet Deserves the Royal Treatment</q>
+      </h5>
+    </div>
+
+    <div class="text-center mb-4 border border-success p-4">
+      <h5 class="mb-4">Service Providers</h5>
+      <a href="/service-provider-login/" class="btn btn-sm btn-outline-success w-25">Login</a>
+      <a href="/service-provider-registration/" class="btn btn-sm btn-outline-success w-25">Registration</a>
+    </div>
+
+
+  </div>
+</div>
+
+
+
+
+{% endblock %}

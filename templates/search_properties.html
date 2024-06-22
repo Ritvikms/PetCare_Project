@@ -1,0 +1,77 @@
+{% set title = "Dashboard" %}
+{% set curPage = "Dashboard" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<section>
+  <div class="content container bg-light py-5 mb-5">
+    <h4  class="page-title mb-5 text-center border-bottom border-danger">Properties</h4>
+    <div class="row">
+      <div class="col-sm-3">
+        <form action="/search/">
+          <h6 class="text-center">Filter</h6>
+          <hr>
+          <div class="row mb-2">
+            <div class="col-sm-12 mb-3">
+              <label for="country" class="form-label">Country</label>
+              <select class="form-select" name="country" id="country">
+                <option value="">-- Select --</option>
+                {% for country in countries %}
+                <option value="{{country['_id']}}" {{'selected' if str(country['_id'])==request.args.get('country')}}>{{country['country_name']}}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-sm-12 mb-3">
+              <label for="category" class="form-label">Category</label>
+              <select class="form-select" name="category" id="category">
+                <option value="">-- Select --</option>
+                {% for cat in categories %}
+                <option value="{{cat['_id']}}"  {{'selected' if str(cat['_id'])==request.args.get('category')}}>{{cat['category_name']}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-theme-primary w-100">Search</button>
+        </form>
+      </div>
+
+      <div class="col-sm-9">
+        <div class="row g-4">
+          {% if not properties%}
+          <h5 class="text-danger text-center">Sorry! No properties found</h5>
+          {% endif %}
+          {% for prp in properties%}
+          {% set country = getCountry(prp["country_id"])%}
+          {% set ratings = ratings(prp["_id"])%}
+          <div class="col-sm-4">
+            <a href="/property-details/{{prp['_id']}}/" class="text-decoration-none text-secondary">
+              <div class="properties-thumbnail">
+    
+                <img src="../static/property/{{prp['image_filename']}}" alt="" style="width: 100%;height:200px;">
+    
+                <h6 class="my-3 text-danger" style="height:28px;">{{prp["property_name"]}}</h6>
+    
+                <div class=" px-2">
+                  <div class="mb-1"><i class="fa fa-location-pin-lock"></i> {{country["country_name"]}}</div>
+                  <div class="d-flex align-items-center justify-content-between">
+                    <p class="fs-5">$ {{prp["rate_per_night"]|float}} / <small>night</small></p>
+                    <p class="fs-5">
+                      <i class="fa fa-star fa-fw text-danger me-1"></i> {{'New' if ratings["propertyRating"] == 0 else ratings["propertyRating"] }}
+                    </p>
+                  </div>
+                </div>
+    
+              </div>
+            </a>
+          </div>
+          
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% endblock %}

@@ -1,0 +1,54 @@
+{% set title = "All Appointments" %}
+{% set curPage = "appointments" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<section>
+  <div class="content container bg-light py-5 px-4 mb-5">
+
+    <h4 class="text-center">{{title}}</h4>
+    <div class="border bg-white p-4">
+      <div class="table-responsive">
+        <table class="table table-bordered border" id="table">
+          <thead>
+            <th>S.No</th>
+            <th>Pet</th>
+            <th>Service</th>
+            <th>Owner</th>
+            <th>Price</th>
+            <th>Appointment&nbsp;Date</th>
+            <th>Appointment&nbsp;Time</th>
+            <th>Status</th>
+            <th>Action</th>
+          </thead>
+          <tbody>
+            {% for item in appointments %}
+            {% set time_slot = getTimeSlot(item['provider_service_id'], item['time_slot_id'])%}
+            <tr>
+              <td>{{loop.index}}</td>
+              <td>{{item['pet']['name']}}</td>
+              <td>{{item['service']['service_name']}}</td>
+              <td>{{item['owner']['fullname']}}</td>
+              <td></td>
+              <td>{{item['appointment_date']}}</td>
+              <td>{{time_slot}}</td>
+              <td>{{item['status']}}</td>
+              <td>
+                {% if item['status'] == 'PENDING' %}
+                <a href="" class="btn btn-sm btn-success">APPROVE</a>
+                <a href="" class="btn btn-sm btn-danger">REJECT</a>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

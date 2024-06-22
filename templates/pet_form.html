@@ -1,0 +1,65 @@
+{% set title = 'Add Pet' if not pet else 'Update Pet' %}
+{% set curPage = "userPets" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="content container bg-light py-5 px-4 mb-5">
+
+  <h5 class="text-center mb-4">{{title}}</h5>
+  <div class="border bg-white p-4">
+
+    <form action="{{request.url}}" method="POST" enctype="multipart/form-data">
+      <div class="row mb-3">
+
+        <div class="col-sm-6 mb-3">
+          <label for="name" class="form-label">Pet name</label>
+          <input type="text" class="form-control" name="name" id="name" value="{{pet['name']}}" required autofocus>
+        </div>
+
+        <div class="col-sm-6 mb-3">
+          <label for="species" class="form-label">Species</label>
+          <input type="text" class="form-control" name="species" id="species" value="{{pet['species']}}" required>
+        </div>
+
+        <div class="col-sm-6 mb-3">
+          <label for="breed" class="form-label">Breed</label>
+          <input type="text" class="form-control" name="breed" id="breed" value="{{pet['breed']}}" required>
+        </div>
+
+        <div class="col-sm-6 mb-3">
+          <label for="age" class="form-label">Age</label>
+          <input type="text" class="form-control" name="age" id="age" value="{{pet['age']}}" required>
+        </div>
+
+        <div class="col-sm-6 mb-4">
+          <label for="sex" class="form-label">Sex</label>
+          <select name="sex" id="sex" class="form-control" title="Pet's Sex">
+            <option value="">--Select--</option>
+            <option value="Male" {{'selected' if str(pet['sex']=='Male' ) }}>Male</option>
+            <option value="Female" {{'selected' if str(pet['sex']=='Female' ) }}>Female</option>
+          </select>
+        </div>
+
+        <div class="col-sm-6 mb-4">
+          <label for="pet_image" class="form-label">Image</label>
+          <input type="file" class="form-control" name="pet_image" id="pet_image" {{'required' if not pet else '' }}>
+          <input type="hidden" name="image_file_name" value="{{pet['image_file_name']}}">
+        </div>
+
+        <div class="row mb-4">
+          <div class="offset-3 col-sm-6 mb-2">
+            <input type="hidden" name="pet_id" value="{{pet['_id']}}">
+            <button type="submit" class="btn btn-success w-100">Save</button>
+          </div>
+        </div>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+{% endblock %}

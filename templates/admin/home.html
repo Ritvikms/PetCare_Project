@@ -1,0 +1,35 @@
+{% set title = "Dashboard" %}
+{% set curPage = "adminHome" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="content container bg-light py-5 px-4 mb-5">
+  <h5 class="text-center">{{title}}</h5>
+  <div class="border bg-white" style="height:70vh;padding-top:20vh;">
+
+    <div class="row justify-content-center">
+      <div class="col-sm-3">
+        <div class="bg-danger-subtle p-3 text-center">
+          <h4>Registered Hosts</h4>
+          <h4>{{dashboard["hosts"]}}</h5>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="bg-danger-subtle p-3 text-center">
+          <h4>Verified Hosts</h4>
+          <h4>{{dashboard["verified_hosts"]}}</h5>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="bg-danger-subtle p-3 text-center">
+          <h4>Registered Users</h4>
+          <h4>{{dashboard["users"]}}</h4>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,63 @@
+{% set title = 'Add Service' if not service else 'Update Service' %}
+{% set curPage = "providerServices" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="content container bg-light py-5 px-4 mb-5">
+
+  <h5 class="text-center">{{title}}</h5>
+  <div class="border bg-white p-4">
+
+    <div class="border border-dark-subtle p-4 w-75 m-auto">
+      <form action="{{request.url}}" method="POST" enctype="multipart/form-data">
+        <div class="row mb-3">
+
+          <div class="col-sm-4 mb-2">
+            <label for="service_id" class="form-label">Select Service</label>
+            <select name="service_id" id="service_id" class="form-select" required>
+              <option value="">--Select--</option>
+              {% for item in services %}
+              <option value="{{item['_id']}}" {{'selected' if item['_id']==service_provider['service_id']}}>
+                {{item['service_name']}}
+              </option>
+              {% endfor%}
+            </select>
+          </div>
+
+          <div class="col-sm-4 mb-2">
+            <label for="price" class="form-label">Price ($)</label>
+            <input type="number" min="1" step="0.01" class="form-control" name="price" id="price"
+              value="{{service_provider['price']}}" required>
+          </div>
+
+          <div class="col-sm-4 mb-2">
+            <label for="duration" class="form-label">Duration</label>
+            <input type="text" class="form-control" name="duration" id="duration"
+              value="{{service_provider['duration']}}" required>
+          </div>
+        </div>
+
+        <div class="row mb-4">
+          <div class="col-sm-12 mb-2">
+            <label for="description" class="form-label">Description</label>
+            <textarea name="description" id="description"
+              class="form-control">{{service_provider['description']}}</textarea>
+          </div>
+        </div>
+
+        <div class="row mb-4">
+          <div class="col-sm-6 mb-2">
+            <input type="hidden" name="provider_service_id" value="{{service_provider['_id']}}">
+            <button type="submit" class="btn btn-success w-100">Save</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

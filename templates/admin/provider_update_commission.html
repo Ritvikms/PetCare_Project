@@ -1,0 +1,27 @@
+{% set title = "Service Provider Update Commission" %}
+{% set curPage = "adminProviderCommission" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="content container bg-light py-5 px-4 mb-5">
+
+  <h5 class="text-center">{{title}}</h5>
+  <div class="border bg-white p-4">
+
+    <div class="border p-3 w-50">
+      <form action="{{request.url}}" method="POST" id="updateCommission">
+        <div class="mb-4">
+          <label for="commission" class="form-label">Commission %</label>
+          <input type="number" step="0.01" min="1" class="form-control" name="commission" id="commission"
+            value="{{provider['commission']}}" required>
+        </div>
+        <button type="submit" class="btn btn-success">Submit</button>
+      </form>
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

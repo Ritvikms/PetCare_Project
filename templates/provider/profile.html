@@ -1,0 +1,52 @@
+{% set title = "My Profile" %}
+{% set curPage = "profile" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="content bg-light container p-2">  
+
+  <div class="py-3">
+    <h5 class="text-center mb-5">{{title}}</h5>
+
+    <div class="border border-dark-subtle p-4 w-50 m-auto">
+
+      <form action="{{request.url}}" method="POST" id="hostProfile">
+
+        <div class="mb-3">
+          <label for="name" class="form-label">Fullname</label>
+          <input type="text" class="form-control" name="name" id="name" value="{{profile['name']}}" required>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col">
+            <label for="phone" class="form-label">Phone No</label>
+            <input type="text" class="form-control" name="phone" id="phone" value="{{profile['phone']}}" required>
+          </div>
+          <div class="col">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" name="email" id="email" value="{{profile['email']}}" disabled>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="languages" class="form-label">Known Languages</label>
+          <input type="text" class="form-control" name="languages" id="languages" value="{{profile['languages']}}" required>
+        </div>
+
+        <div class="mb-4">
+          <label for="about" class="form-label">About</label>
+          <textarea name="about" id="about" cols="30" rows="3" class="form-control">{{profile['about']}}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-theme-primary w-100">Update</button>
+
+      </form>
+
+    </div>
+    
+  </div>
+  
+</div>
+
+{% endblock %}

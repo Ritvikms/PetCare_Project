@@ -1,0 +1,66 @@
+{% set title = "Provider Services" %}
+{% set curPage = "services" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<section>
+  <div class="content container bg-light py-5 px-4 mb-5">
+
+    <h4 class="text-center">Service Details for {{provider_service['service']['service_name']}}</h4>
+    <div class="border bg-white p-4">
+
+      <a href="javascript:window.history.back()" class="btn btn-sm btn-warning mb-3">Back to service providers</a>
+
+      <div class="border p-2">
+        <div class="row">
+          <div class="col-sm-8">
+            <table class="table border">
+              <tr>
+                <th>Service&nbsp;Provider</th>
+                <td style="width:2%">:</td>
+                <td>{{provider_service['service_provider']['fullname']}}</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td style="width:2%">:</td>
+                <td>{{provider_service['description']}}</td>
+              </tr>
+              <tr>
+                <th>Price</th>
+                <td style="width:2%">:</td>
+                <td>${{provider_service['price']}}</td>
+              </tr>
+              <tr>
+                <th>Duration</th>
+                <td style="width:2%">:</td>
+                <td>{{provider_service['duration']}}</td>
+              </tr>
+            </table>
+
+          </div>
+
+          {% if provider_service['time_slots'] %}
+          <div class="col-sm-4">
+            <div class="border p-1">
+              <h5 class="text-center">Time Slots</h5>
+              <hr>
+              <ul>
+                {% for slot in provider_service['time_slots'] %}
+                <li class="mb-1">{{slot['time_slot']}}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+
+        <a href="/user/schedule-now?psid={{provider_service['_id']}}" class="btn btn-sm btn-success">Schedule Now</a>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,48 @@
+{% set title = "Service Providers List" %}
+{% set curPage = "adminServiceProviders" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="content container bg-light py-5 px-4 mb-5">
+
+  <h5 class="text-center">{{title}}</h5>
+  <div class="border bg-white p-4">
+
+    <div class="table-responsive">
+      <table class="table table-bordered" id="table">
+        <thead>
+          <th>S.No</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Commission&nbsp;%</th>
+          <th>Status</th>
+          <th>Action</th>
+        </thead>
+        <tbody>
+          {% for item in providers %}
+          <tr>
+            <td>{{loop.index}}</td>
+            <td>{{item["fullname"]}}</td>
+            <td>{{item["email"]}}</td>
+            <td>{{item["phone"]}}</td>
+            <td>{{item["commission"]}}</td>
+            <td>{{item['status']}}</td>
+            <td>
+              <a href="/admin/view-service-provider-details/{{item['_id']}}/" class="btn btn-sm btn-primary">View</a>
+              {% if item['status'] == 'APPROVED' %}
+              <a href="/admin/provider-update-commission/{{item['_id']}}/"
+                class="btn btn-sm btn-info">Update&nbsp;Commission</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

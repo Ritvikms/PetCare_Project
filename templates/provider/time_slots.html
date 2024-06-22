@@ -1,0 +1,73 @@
+{% set title = "Time slots for "+provider_service['service']['service_name'] %}
+{% set curPage = "providerServices" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="content container bg-light py-5 px-4 mb-5">
+
+  <h5 class="text-center">{{title}}</h5>
+  <div class="border bg-white p-4">
+
+    <a href="/service-provider/services/" class="btn btn-sm btn-warning mb-2">Back to services</a>
+
+    <div class="row g-4">
+      <div class="col-sm-4">
+        <form action="{{request.url}}" method="post" class="border p-3">
+          <div class="mb-3">
+            <label for="time_slot" class="form-label required">Time Slot</label>
+            <input type="text" name="time_slot" id="time_slot" class="form-control" value="{{time_slot['time_slot']}}"
+              required autofocus placeholder="Eg: 9:30AM - 10:00AM">
+          </div>
+
+          <div class="mb-3">
+            <input type="hidden" name="provider_service_id" value="{{provider_service['_id']}}">
+            <input type="hidden" name="time_slot_id" value="{{time_slot['id']}}">
+            <button type="submit" class="btn btn-success w-100">Save</button>
+          </div>
+
+          {% if time_slot %}
+          <div class="mb-3">
+            <a href="/service-provider/service-time-slots?psid={{provider_service['_id']}}"
+              class="btn btn-warning  w-100">Cancel</a>
+          </div>
+          {% endif %}
+
+        </form>
+      </div>
+
+      <div class="col-sm-8">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Time Slot</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in provider_service['time_slots'] %}
+              <tr>
+                <td>{{loop.index}}</td>
+                <td>{{item['time_slot']}}</td>
+                <td>
+                  <a href="/service-provider/service-time-slots?psid={{provider_service['_id']}}&time_slot_id={{item['id']}}"
+                    class="btn btn-sm btn-primary">Edit</a>
+                  <a href="/service-provider/service-time-slots/delete?psid={{provider_service['_id']}}&time_slot_id={{item['id']}}"
+                    class="btn btn-sm btn-danger"
+                    onclick="return confirm('Are you sure to delete this time slot?')">Delete</a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

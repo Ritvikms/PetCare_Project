@@ -1,0 +1,78 @@
+{% set title = "Service Provider Details" %}
+{% set curPage = "adminServiceProviderDetails" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="content container bg-light py-5 px-4 mb-5">
+
+  <h5 class="text-center">{{title}}</h5>
+
+  <div class="card">
+    <div class="card-body">
+
+      <table class="table border">
+        <tr>
+          <th>Name</th>
+          <td style="width: 3%;">:</td>
+          <td>{{provider['fullname']}}</td>
+        </tr>
+        <tr>
+          <th>Email</th>
+          <td style="width: 3%;">:</td>
+          <td>{{provider['email']}}</td>
+        </tr>
+        <tr>
+          <th>Phone</th>
+          <td style="width: 3%;">:</td>
+          <td>{{provider['phone']}}</td>
+        </tr>
+        <tr>
+          <th>Address</th>
+          <td style="width: 3%;">:</td>
+          <td>{{provider['address']}}</td>
+        </tr>
+        <tr>
+          <th>About</th>
+          <td style="width: 3%;">:</td>
+          <td>{{provider['about']}}</td>
+        </tr>
+        <tr>
+          <th>Commission&nbsp;(%)</th>
+          <td style="width: 3%;">:</td>
+          <td>{{provider['commission']}}</td>
+        </tr>
+        <tr>
+          <th>Remarks</th>
+          <td style="width: 3%;">:</td>
+          <td>{{provider['remarks']}}</td>
+        </tr>
+        <tr>
+          <th>Status</th>
+          <td style="width: 3%;">:</td>
+          <td>{{provider['status']}}</td>
+        </tr>
+      </table>
+
+      <hr>
+      <div>
+        {% if provider['status'] != "APPROVED" and provider['status'] != "DELETED" %}
+        <a href="/admin/approve-service-provider/{{provider['_id']}}/" class="btn btn-sm btn-success">APPROVE</a>
+        {% endif %}
+
+        {% if provider['status'] != "REJECTED" and provider['status'] != "DELETED" %}
+        <a href="/admin/reject-service-provider/{{provider['_id']}}/" class="btn btn-sm btn-warning">REJECT</a>
+        {% endif %}
+
+        <a href="/admin/delete-service-provider/{{provider['_id']}}/"
+          onclick="return confirm('Are you sure to delete this service provider')"
+          class="btn btn-sm btn-danger">DELETE</a>
+      </div>
+
+
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

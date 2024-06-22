@@ -1,0 +1,36 @@
+{% set title = "Change Password" %}
+{% set curPage = "changePwd" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<section>
+  <div class="content container bg-light py-5 px-4 mb-5">
+
+    <h4 class="text-center">Change Password</h4>
+    <div class="border bg-white p-4">
+
+      <h5>Check Availability</h5>
+      <form action="{{request.uri}}" method="POST">
+        <div class="row mb-3">
+          <div class="col-sm-4">
+            <label for="" class="form-label">Extend Upto</label>
+            <input type="hidden" name="old_check_out" value="{{actual_checkout_date}}" readonly>
+            <input type="hidden" name="next_day_to_old_check_out" value="{{extend_start_date}}" readonly>
+            
+            <input type="date" min="{{extend_start_date}}" name="new_check_out" class="form-control"
+              value="{{extend_start_date}}">
+          </div>
+        </div>
+        <div class="mb-3">
+
+        </div>
+        <button class="btn btn-primary">Check Availability</button>
+      </form>
+
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

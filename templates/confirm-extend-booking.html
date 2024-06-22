@@ -1,0 +1,70 @@
+{% set title = "Booking Confirmation" %}
+{% set curPage = "bookingConfirmation" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<section>
+  <div class="container content bg-light py-5 px-2 mb-5">
+
+    {% if isReserved %}
+    <div class="mt-5 text-center">
+      <h4 class="text-danger mb-3">Sorry!, Property not available on the given dates</h4>
+      <a href="/" class="btn btn-sm btn-success">Back to home</a>
+    </div>
+    {% else %}
+
+    <h4 class="text-center">Property available can be extended</h4>
+    <div class="border bg-white p-2">
+      <h5>{{booking_values["property"]["property_name"]}}</h5>
+      <div class="row">
+        <div class="col-sm-8">
+          <table class="table table-bordered">
+            <thead>
+              <th>Old&nbsp;Check-out&nbsp;date</th>
+              <th>New&nbsp;Check-out&nbsp;date</th>
+              <th>Rate / Per night</th>
+              <th>Extended Nights</th>
+              <th>Amount</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{booking_values["old_check_out"]}}</td>
+                <td>{{booking_values["new_check_out"]}}</td>
+                <td>{{booking_values["property"]["rate_per_night"]}}</td>
+                <td>{{booking_values["total_nights"]}}</td>
+                <td>{{booking_values["base_amount"]}}</td>
+              </tr>
+              <tr>
+                <th colspan="4">Service Charge ({{booking_values["property"]["service_charge"]}} %)</th>
+                <td>{{'%0.2f' % booking_values["service_amount"] | float}}</td>
+              </tr>
+              <tr>
+                <th colspan="4">Additional amount to be paid </th>
+                <td>{{'%0.2f' % booking_values["total_amount"] | float}}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p><strong>Note:</strong> On confirming your extension the amount will be debited from your credit card</p>
+          <form action="/extended-book/" method="post">
+            <input type="hidden" name="booking_id" value="{{booking_values['booking']['_id']}}">
+            <input type="hidden" name="property_id" value="{{booking_values['property']['_id']}}">
+            <input type="hidden" name="new_check_out" value="{{booking_values['new_check_out']}}">
+            <input type="hidden" name="rate_per_night" value="{{booking_values['property']['rate_per_night']}}">
+            <input type="hidden" name="extended_nights" value="{{booking_values['total_nights']}}">
+            <input type="hidden" name="base_amount" value="{{booking_values['base_amount']}}">
+            <input type="hidden" name="service_charge" value="{{booking_values['property']['service_charge']}}">
+            <input type="hidden" name="service_amount" value="{{booking_values['service_amount']}}">
+            <input type="hidden" name="total_amount" value="{{booking_values['total_amount']}}">
+            <button type="submit" class="btn btn-success">Confirm & Book Now</button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,59 @@
+{% set title = "Countries" %}
+{% set curPage = "adminCountries" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="content container bg-light py-5 px-4 mb-5">
+  
+  <h5 class="text-center">{{title}}</h5>
+  <div class="border bg-white p-4">
+
+    <div class="my-4">
+      <form action="/admin/countries/" method="POST">
+        <div class="row justify-content-center">
+          <div class="col-sm-2  text-end">
+            <label for="country_name" class="col-form-label">Country Name</label>
+          </div>
+          <div class="col-sm-4">
+            <input type="text" class="form-control w-100" name="country_name" id="country_name" value="{{country['country_name']}}" required>
+          </div>
+          <div class="col-sm-1">
+            <input type="hidden" name="country_id" value="{{country['_id']}}">
+            <button type="submit" class="btn btn-success w-100">Save</button>
+          </div>
+          {% if category %}
+          <div class="col-sm-1">
+            <a href="/admin/countries/" class="btn btn-warning  w-100">Cancel</a>
+          </div>
+          {% endif %}
+        </div>
+      </form>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-bordered" id="table">
+        <thead>
+          <th>S.No</th>
+          <th>Country Name</th>
+          <th>Action</th>
+        </thead>
+        <tbody>
+          {% for item in countries %}
+          <tr>
+            <td>{{loop.index}}</td>
+            <td>{{item["country_name"]}}</td>
+            <td>
+              <a href="/admin/countries/?country_id={{item['_id']}}" class="btn btn-sm btn-primary">Edit</a>
+              <a href="/admin/country/delete/{{item['_id']}}/" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+</div>
+
+{% endblock %}

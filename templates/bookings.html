@@ -1,0 +1,62 @@
+{% set title = "Booking History" %}
+{% set curPage = "bookings" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<section>
+  <div class="content container bg-light py-5 px-4 mb-5">
+
+    <h4 class="text-center">Booking History</h4>
+    <div class="border bg-white p-4">
+
+      <div class="table-responsive">
+        <table class="table table-bordered" id="table">
+          <thead>
+            <th>#</th>
+            <th>Booking&nbsp;Id</th>
+            <th>Booked&nbsp;On</th>
+            <th>Property</th>
+            <th>Check&nbsp;in</th>
+            <th>Check&nbsp;out</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Action</th>
+          </thead>
+          <tbody>
+            {% for book in bookings %}
+            <tr>
+              <td>{{loop.index}}</td>
+              <td>
+                <a href="/booking-details/{{book['_id']}}/">{{book['_id']}}</a>
+                
+              </td>
+              <td>{{book['booked_on'].strftime('%Y-%m-%d')}}</td>
+              <td>
+                <div>{{book['property'][0]["property_name"]}}</div>                
+              </td>
+              <td>{{book['check_in'].strftime('%Y-%m-%d')}}</td>
+              <td>{{book['check_out'].strftime('%Y-%m-%d')}}</td>
+              <td>$ {{'%0.2f' % book['bill_amount'] | float}}</td>
+              <td>{{'Cancelled' if book['is_cancelled'] else 'Booked'}}</td>
+              <td>
+                {% if not book['is_cancelled'] and not book['is_checked_in']%}
+                <a onclick="return confirm('Are you sure? do you want to cancel')" href="/cancel-booking/{{book['_id']}}/" class="btn btn-sm btn-danger">Cancel</a>
+                {% elif book['is_checked_in'] and not book['is_checked_out']%}
+                checked-in
+                {% elif book['is_checked_out']%}
+                Completed
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor%}
+          </tbody>
+        </table>
+      </div>   
+
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

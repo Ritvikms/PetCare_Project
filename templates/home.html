@@ -1,0 +1,19 @@
+{% set title = "Dashboard" %}
+{% set curPage = "dashboard" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<section>
+  <div class="content container bg-light py-5 px-4 mb-5">
+
+    <div class="border bg-white p-4">
+
+      <h4 class="text-center">Welcome, {{session['fullname']}}</h4>
+
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

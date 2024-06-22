@@ -1,0 +1,60 @@
+{% set title = "Services" %}
+{% set curPage = "adminCategories" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="content container bg-light py-5 px-4 mb-5">
+
+  <h5 class="text-center">{{title}}</h5>
+  <div class="border bg-white p-4">
+
+    <div class="my-4">
+      <form action="/admin/services/" method="POST">
+        <div class="row justify-content-center">
+          <div class="col-sm-2  text-end">
+            <label for="service_name" class="col-form-label">Service Name</label>
+          </div>
+          <div class="col-sm-4">
+            <input type="text" class="form-control w-100" name="service_name" id="service_name"
+              value="{{service['service_name']}}" required>
+          </div>
+          <div class="col-sm-1">
+            <input type="hidden" name="service_id" value="{{service['_id']}}">
+            <button type="submit" class="btn btn-success w-100">Save</button>
+          </div>
+          {% if service %}
+          <div class="col-sm-1">
+            <a href="/admin/services/" class="btn btn-warning  w-100">Cancel</a>
+          </div>
+          {% endif %}
+        </div>
+      </form>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-bordered" id="table">
+        <thead>
+          <th>S.No</th>
+          <th>Service Name</th>
+          <th>Action</th>
+        </thead>
+        <tbody>
+          {% for item in services %}
+          <tr>
+            <td>{{loop.index}}</td>
+            <td>{{item["service_name"]}}</td>
+            <td>
+              <a href="/admin/services/?service_id={{item['_id']}}" class="btn btn-sm btn-primary">Edit</a>
+              <a href="/admin/service/delete/{{item['_id']}}/" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

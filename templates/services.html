@@ -1,0 +1,45 @@
+{% set title = "Services" %}
+{% set curPage = "services" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<section>
+  <div class="content container bg-light py-5 px-4 mb-5">
+
+    <h4 class="text-center">All Services</h4>
+    <div class="border bg-white p-4">
+
+      <div class="table-responsive">
+        <table class="table table-bordered border" id="table">
+          <thead>
+            <th>S.No</th>
+            <th>Service&nbsp;name</th>
+            <th>Total&nbsp;Service&nbsp;Providers</th>
+            <th>Action</th>
+          </thead>
+          <tbody>
+            {% for item in services %}
+            {% set count = getProviderCountByServiceId(item['_id'])%}
+            <tr>
+              <td>{{loop.index}}</td>
+              <td>{{item['service_name']}}</td>
+              <td>{{count}}</td>
+              <td>
+                {% if count > 0 %}
+                <a href="/user/view-provider-service?service_id={{item['_id']}}"
+                  class="btn btn-sm btn-primary">View&nbsp;Providers</a>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

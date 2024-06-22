@@ -1,0 +1,52 @@
+{% set title = "Host" %}
+{% set curPage = "adminHosts" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="content container bg-light py-5 px-4 mb-5">  
+  
+  <h5 class="text-center">{{title}}</h5>
+  <div class="border bg-white p-4">
+
+    <div class="table-responsive">
+      <table class="table table-bordered" id="table">
+        <thead>
+          <th>S.No</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Commission %</th>
+          <th>Is Verified</th>
+          <th>Action</th>
+        </thead>
+        <tbody>
+          {% for item in hosts %}
+          <tr>
+            <td>{{loop.index}}</td>
+            <td>{{item["name"]}}</td>
+            <td>{{item["email"]}}</td>
+            <td>{{item["phone"]}}</td>
+            <td>{{item["commission_percentage"]}}</td>
+            <td>
+              {{'Verfified' if item['is_verified'] else 'Not-verified'}}
+            </td>
+            <td>
+              {% if item['is_verified']%}
+              <a href="/admin/host-update-commission/{{item['_id']}}/" class="btn btn-sm btn-warning">Update Commission</a>
+              <a href="/admin/properties/{{item['_id']}}/" class="btn btn-sm btn-primary">Properties</a>
+              {% else %}
+              <a href="/admin/verify-host/{{item['_id']}}/" class="btn btn-sm btn-success">Verify</a>
+              {% endif %}
+              <a onclick="return confirm('Are you sure to delete this host?')" href="/admin/host/delete/{{item['_id']}}/" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+</div>
+
+{% endblock %}

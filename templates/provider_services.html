@@ -1,0 +1,45 @@
+{% set title = "Provider Services" %}
+{% set curPage = "providerServices" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<section>
+  <div class="content container bg-light py-5 px-4 mb-5">
+
+    <h4 class="text-center">Providers for {{service['service_name']}}</h4>
+    <div class="border bg-white p-4">
+
+      <a href="javascript:window.history.back()" class="btn btn-sm btn-warning mb-3">Back to services</a>
+
+      <div class="table-responsive">
+        <table class="table table-bordered border" id="table">
+          <thead>
+            <th>S.No</th>
+            <th>Provider&nbsp;name</th>
+            <th>Price</th>
+            <th>Duration</th>
+            <th>Action</th>
+          </thead>
+          <tbody>
+            {% for item in provider_services %}
+            <tr>
+              <td>{{loop.index}}</td>
+              <td>{{item['service_provider']['fullname']}}</td>
+              <td>${{item['price']}}</td>
+              <td>{{item['duration']}}</td>
+              <td>
+                <a href="/user/view-provider-service-details?id={{item['_id']}}" class="btn btn-sm btn-primary">View</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

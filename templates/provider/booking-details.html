@@ -1,0 +1,123 @@
+{% set title = "Booking Details" %}
+{% set curPage = "bookingDetails" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<section>
+  <div class="content container bg-light py-5 px-4 mb-5">
+
+    <h4 class="text-center">{{title}}</h4>
+    <div class="border bg-white p-4">
+      <div class="mb-3">
+        {% if bookings["is_cancelled"] %}
+        <button class="btn btn-sm btn-danger">Cancelled</button>
+        {% elif bookings["is_checked_in"] and not bookings["is_checked_out"]%}
+        <button class="btn btn-sm btn-success">Checked-In</button>
+        {% elif bookings["is_checked_in"] and bookings["is_checked_out"]%}
+        <button class="btn btn-sm btn-success">Completed</button>
+        {% else %}
+        <button class="btn btn-sm btn-success">Booked</button>
+        {% endif %}
+      </div>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <table class="table table-bordered">
+            <th colspan="2" class="text-center">Booking Details</th>
+            <tr>
+              <th style="width:50%;">Booking Id</th>
+              <td> {{bookings["_id"]}}</td>
+            </tr>
+            <tr>
+              <th>Booked On</th>
+              <td> {{bookings["booked_on"].strftime('%Y-%m-%d')}}</td>
+            </tr>
+            <tr>
+              <th>Check in</th>
+              <td> {{bookings["check_in"].strftime('%Y-%m-%d')}}</td>
+            </tr>
+            <tr>
+              <th>Check out</th>
+              <td> {{bookings["check_out"].strftime('%Y-%m-%d')}}</td>
+            </tr>
+            <tr>
+              <th>Guests</th>
+              <td> {{bookings["total_guest"]}} (persons)</td>
+            </tr>
+            <tr>
+              <th>Total Nights</th>
+              <td> {{bookings["total_nights"]}} (Nights)</td>
+            </tr>
+          </table>
+
+          <table class="table table-bordered">
+            <th colspan="2" class="text-center">Payment Details</th>
+            <tr>
+              <th style="width:50%;">Payment Mode</th>
+              <td> Credit Card </td>
+            </tr>
+            <tr>
+              <th>Base Amount</th>
+              <td> $ {{'%0.2f' % bookings["payment"][0]["base_amount"] | float}}</td>
+            </tr>
+            <tr>
+              <th>Service Charge ({{bookings["payment"][0]["service_charge"]}} %)</th>
+              <td> $ {{'%0.2f' % bookings["payment"][0]["service_amount"] | float}}</td>
+            </tr>
+            <tr>
+              <th>Bill Amount</th>
+              <td> $ {{'%0.2f' % bookings["payment"][0]["bill_amount"] | float}}</td>
+            </tr>
+            {% if bookings["is_cancelled"] %}
+            <tr>
+              <th>Cancellation Amount</th>
+              <td> $ {{'%0.2f' % bookings["payment"][0]["cancellation_amount"] | float}}</td>
+            </tr>
+            <tr>
+              <th>Refund Amount</th>
+              <td> $ {{'%0.2f' % bookings["payment"][0]["refund_amount"] | float}}</td>
+            </tr>
+            {% else %}
+            <tr>
+              <th>Commission Amount ({{bookings["payment"][0]["commission_percentage"]}}%)</th>
+              <td> $ {{'%0.2f' % bookings["payment"][0]["commission_amount"] | float}}</td>
+            </tr>
+            <tr>
+              <th>Amount Credited</th>
+              <td> $ {{'%0.2f' % bookings["payment"][0]["host_amount"] | float}}</td>
+            </tr>
+            {% endif %}
+          </table>
+
+
+        </div>
+
+        <div class="col-sm-6">
+          <table class="table table-bordered">
+            <th colspan="2" class="text-center">Customer Details</th>
+            <tr>
+              <th style="width:40%;">Customer Name</th>
+              <td> {{bookings["user"][0]["fullname"]}}</a></td>
+            </tr>
+            <tr>
+              <th>Email </th>
+              <td> {{bookings["user"][0]["email"]}}</a></td>
+            </tr>
+            <tr>
+              <th>Contact no </th>
+              <td> {{bookings["user"][0]["contact_no"]}}</a></td>
+            </tr>
+          </table>
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

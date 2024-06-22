@@ -1,0 +1,66 @@
+{% set title = "Schedule Appointment" %}
+{% set curPage = "scheduleAppointment" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<section>
+  <div class="content container bg-light py-5 px-4 mb-5">
+
+    <h4 class="text-center">{{title}}</h4>
+    <div class="border bg-white p-4">
+
+      <form action="{{request.url}}" method="post" id="scheduleAppointmentForm" class="w-50">
+
+        <div class="mb-3">
+          <label for="service" class="form-label required">Service</label>
+          <input type="text" class="form-control" id="service" value="{{provider_service['service']['service_name']}}"
+            disabled>
+          <input type="hidden" name="service_id" value="{{provider_service['service_id']}}">
+        </div>
+
+        <div class="mb-3">
+          <label for="provider" class="form-label required">Service provider</label>
+          <input type="text" class="form-control" id="provider"
+            value="{{provider_service['service_provider']['fullname']}}" disabled>
+          <input type="hidden" name="provider_id" value="{{provider_service['provider_id']}}">
+        </div>
+
+        <div class="mb-3">
+          <label for="pet_id" class="form-label required">Select Pet</label>
+          <select name="pet_id" id="pet_id" class="form-select" title="" required>
+            <option value="">--Select--</option>
+            {% for item in pets %}
+            <option value="{{item._id}}">{{item.name}} - ({{item.species}})
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="appointment_date" class="form-label required">Appointment Date</label>
+          <input type="date" class="form-control" name="appointment_date" id="appointment_date" required>
+        </div>
+
+        {% if provider_service['time_slots'] %}
+        <div class="mb-3">
+          <label for="time_slot_id" class="form-label required">Select Time Slot</label>
+          <select name="time_slot_id" id="time_slot_id" class="form-control">
+            <option value="">--Select--</option>
+            {% for item in provider_service['time_slots'] %}
+            <option value="{{item.id}}">{{item.time_slot}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        {% endif %}
+
+        <input type="hidden" name="provider_service_id" value="{{provider_service['_id']}}">
+        <button type="submit" class="btn btn-theme-primary">Schedule</button>
+      </form>
+
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

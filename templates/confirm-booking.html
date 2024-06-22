@@ -1,0 +1,97 @@
+{% set title = "Booking Confirmation" %}
+{% set curPage = "bookingConfirmation" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<section>
+  <div class="container content bg-light py-5 px-2 mb-5">
+
+    {% if isReserved %}
+    <div class="mt-5 text-center">
+      <h4 class="text-danger mb-3">Sorry!, Property not available on the given dates</h4>
+      <a href="/" class="btn btn-sm btn-success">Back to home</a>
+    </div>
+    {% else %}
+
+    <h4 class="text-center">Property Available</h4>
+    <div class="border bg-white p-2">
+      <h5>{{booking_values["property"]["property_name"]}}</h5>
+      <div class="row">
+        <div class="col-sm-8">
+          <table class="table table-bordered">
+            <thead>
+              <th>Check-in Date</th>
+              <th>Check-out Date</th>
+              <th>Rate / Per night</th>
+              <th>Total Nights</th>
+              <th>Amount</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{booking_values["check_in"]}}</td>
+                <td>{{booking_values["check_out"]}}</td>
+                <td>$ {{'%0.2f' % booking_values["property"]["rate_per_night"] | float}}</td>
+                <td>{{booking_values["total_nights"]}}</td>
+                <td>$ {{'%0.2f' % booking_values["property_amount"] | float}}</td>
+              </tr>
+              <tr>
+                <th colspan="4" class="text-end">Service Charge ({{booking_values["property"]["service_charge"]}} %)</th>
+                <td>$ {{'%0.2f' % booking_values["service_amount"] | float}}</td>
+              </tr>
+              <tr>
+                <th colspan="4" class="text-end">Total Amount</th>
+                <th>$ {{'%0.2f' % booking_values["total_amount"] | float}}</th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="col-sm-4">
+          <div class="border p-3">
+            <form action="/book/" method="post" id="creditCard">
+              <h5 class="text-center py-2">Credit Card Payment</h5>
+              <div class="mb-2">
+                <label for="card_holder" class="form-label">Name on Card</label>
+                <input type="text" name="card_holder" class="form-control" required>
+              </div>
+              <div class="mb-2">
+                <label for="cardNumber" class="form-label">Card Number</label>
+                <input type="text" minlength="16" maxlength="16" name="card_number" class="form-control" required>
+              </div>
+              <div class="mb-3 row g-2">
+                <div class="col-sm-6">
+                  <label for="expiry_month" class="form-label">Exp Month</label>
+                  <input type="number" min="1" max="12" value="1" name="expiry_month" class="form-control" placeholder="" required>
+                </div>
+                <div class="col-sm-6">
+                  <label for="expiry_year" class="form-label">Exp Year</label>
+                  <input type="number" min="2023" max="2034" minlength="4" maxlength="4" value="2023" name="expiry_year" class="form-control" placeholder="" required>
+                </div>
+                <div class="col-sm-12">
+                  <label for="cvv" class="form-label">CVV</label>
+                  <input type="text" name="cvv" min="111" max="999" class="form-control" required>
+                </div>
+              </div>
+              <input type="hidden" name="property_id" value="{{booking_values['property']['_id']}}">
+              <input type="hidden" name="total_guest" value="{{booking_values['guest_count']}}">
+              <input type="hidden" name="check_in" value="{{booking_values['check_in']}}">
+              <input type="hidden" name="check_out" value="{{booking_values['check_out']}}">
+              <input type="hidden" name="rate_per_night" value="{{booking_values['property']['rate_per_night']}}">
+              <input type="hidden" name="total_nights" value="{{booking_values['total_nights']}}">
+              <input type="hidden" name="property_amount" value="{{booking_values['property_amount']}}">
+              <input type="hidden" name="service_charge" value="{{booking_values['property']['service_charge']}}">
+              <input type="hidden" name="service_amount" value="{{booking_values['service_amount']}}">
+              <input type="hidden" name="total_amount" value="{{booking_values['total_amount']}}">
+              <button type="submit" class="btn btn-success w-100">Book Now</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+{% endblock %}

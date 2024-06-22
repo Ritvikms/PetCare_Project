@@ -1,0 +1,52 @@
+{% set title = "Service Provider Registration" %}
+{% set curPage = "serviceProviderRegistration" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="content container">
+  <div class="d-flex flex-column gap-4 justify-content-center align-items-center my-3">
+    <h5 class="text-center text-danger">Service Provider Registration</h5>
+    <div class="card" style="width: 28rem;">
+      <div class="card-body bg-light">
+        <p class="text-center">Already Registered? <a href="/service-provider/login/">Login</a> here</p>
+        <hr>
+        <form action="{{request.url}}" method="post" id="serviceProviderRegForm">
+
+          <div class="mb-3">
+            <label for="fullname" class="form-label">Name</label>
+            <input type="text" class="form-control" name="fullname" id="fullname" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" name="email" id="email" required>
+          </div>
+          <div class="mb-3">
+            <label for="phone" class="form-label">Phone</label>
+            <input type="text" class="form-control" name="phone" id="phone" required>
+          </div>
+          <div class="mb-3">
+            <label for="address" class="form-label">Address</label>
+            <textarea name="address" id="address" class="form-control"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="about" class="form-label">About</label>
+            <textarea name="about" id="about" class="form-control"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" name="password" id="password" required>
+          </div>
+          <button class="btn btn-theme-primary w-100">Register</button>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+{% endblock %}

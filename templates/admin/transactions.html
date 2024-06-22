@@ -1,0 +1,46 @@
+{% set title = "Transaction History" %}
+{% set curPage = "adminTransactions" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="content container bg-light py-5 px-4 mb-5">
+  <h5 class="text-center mb-4">{{title}}</h5>
+  <div class="border bg-white p-4">
+    
+
+    <div class="table-responsive">
+      <table class="table table-bordered" id="table">
+        <thead>
+          <th>#</th>
+          <th>Booking Id</th>
+          <th>Payment Date</th>
+          <th>Bill Amount</th>
+          <th>Commission Amount</th>
+          <th>Credited Amount</th>
+          <th>Booking&nbsp;Status</th>
+        </thead>
+        <tbody>
+          {% for payment in payments %}
+          <tr>
+            <td>{{loop.index}}</td>
+            <td><a href="/host/booking-details/{{payment['booking_id']}}/">{{payment["booking_id"]}}</a></td>
+            <td>{{payment["payment_date"].strftime('%Y-%m-%d')}}</td>
+            <td>$ {{'%0.2f' % payment["bill_amount"] | float}}</td>
+            <td>$ {{payment["commission_amount"]}}</td>
+            <td>$ {{payment["host_amount"]}}</td>
+            <td>
+              {{'Cancelled' if payment["is_cancelled"] else 'Booked'}}
+            </td>
+          </tr>
+          
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

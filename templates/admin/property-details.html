@@ -1,0 +1,123 @@
+{% set title = "Property Details " %}
+{% set curPage = "hostProperties" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="content bg-light container">
+
+  <div class="py-3">
+
+    <h5 class="text-center mb-4">{{title}}</h5>
+    <div class="w-100 border p-3">
+      <div class="row mb-3">
+        <div class="col-sm-6">
+          <img src="{{url_for('static',filename='property/'+property['image_filename'])}}" alt="property image"
+            class="img-thumbnail" style="width:100%;height:320px;">
+        </div>
+        <div class="col-sm-6 d-flex flex-column justify-content-start">
+          <div class="mb-3">
+            <div class="text-secondary mb-2">Property Name</div>
+            <div class="ps-1">{{property["property_name"]}}</div>
+          </div>
+          <div class="mb-3">
+            <div class="text-secondary mb-2">Rate per night </div>
+            <div class="ps-1 text-primary fw-bold">$ {{property["rate_per_night"]}}</div>
+          </div>
+          <div class="mb-3">
+            <div class="text-secondary mb-2">Category</div>
+            <div class="ps-1">{{property["category"][0]["category_name"]}}</div>
+          </div>
+          <div class="mb-3">
+            <div class="text-secondary mb-2">Country </div>
+            <div class="ps-1">{{property["country"][0]["country_name"]}}</div>
+          </div>
+          <div class="mb-3">
+            <div class="text-secondary mb-2">Maximum Guest's allowed </div>
+            <div class="ps-1">{{property["max_guest"]}} (Person's)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-sm-6">
+          <div class="text-secondary mb-2">Service Charge (%)</div>
+          <div class="ps-1 text-primary fw-bold">{{property["service_charge"]}} %</div>
+        </div>
+        <div class="col-sm-6">
+          <div class="text-secondary mb-2">Cancellation Charge (%)</div>
+          <div class="ps-1 text-primary fw-bold">{{property["cancellation_charge"]}} %</div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-sm-12">
+          <div class="text-secondary mb-1">Property Description </div>
+          <div class="border p-3">
+            {{property["property_description"]|safe}}
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-sm-12">
+          <div class="text-secondary mb-2">Property Address </div>
+          <div class="border p-3">
+            {{property["property_address"]}}
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-sm-12">
+          <div class="text-secondary mb-2">Amenities </div>
+          <div class="border p-3">
+            {{property["amenities"]}}
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-sm-12">
+          <div class="text-secondary mb-2">Ratings & Reviews </div>
+          <div class="border p-3">
+            <div class="p-3" style="max-height:600px;overflow-y:auto;">
+              {% if not reviews %}
+              <h6 class="text-danger">Sorry! no reviews yet</h6>
+              {% endif %}
+              {% for review in reviews %}
+              <div class="border p-2 mb-2">
+                <div class="star-rating mb-2">
+                  <input type="radio" id="5-stars_{{loop.index}}" name="rating_{{loop.index}}" value="5" {{ 'checked' if
+                    review['rating']==5 else '' }} />
+                  <label for="5-stars" class="star">&#9733;</label>
+                  <input type="radio" id="4-stars_{{loop.index}}" name="rating_{{loop.index}}" value="4" {{ 'checked' if
+                    review['rating']==4 else '' }} />
+                  <label for="4-stars" class="star">&#9733;</label>
+                  <input type="radio" id="3-stars_{{loop.index}}" name="rating_{{loop.index}}" value="3" {{ 'checked' if
+                    review['rating']==3 else '' }} />
+                  <label for="3-stars" class="star">&#9733;</label>
+                  <input type="radio" id="2-stars_{{loop.index}}" name="rating_{{loop.index}}" value="2" {{ 'checked' if
+                    review['rating']==2 else '' }} />
+                  <label for="2-stars" class="star">&#9733;</label>
+                  <input type="radio" id="1-stars_{{loop.index}}" name="rating_{{loop.index}}" value="1" {{ 'checked' if
+                    review['rating']==1 else '' }} />
+                  <label for="1-star" class="star">&#9733;</label>
+                </div>
+                <blockquote><q>{{review['review']}}</q></blockquote>
+                <em class="ps-4">- {{review["user"][0]["fullname"]}}</em>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% set title = "Reject Service Provider" %}
+{% set curPage = "adminRejectServiceProvider" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="content container bg-light py-5 px-4 mb-5">
+
+  <h5 class="text-center">{{title}}</h5>
+  <div class="border bg-white p-4">
+
+    <div class="border p-3 w-50">
+      <form action="{{request.url}}" method="POST" id="rejectProvider">
+        <div class="mb-4">
+          <label for="remarks" class="form-label">Rejection remarks</label>
+          <textarea name="remarks" id="remarks" class="form-control">{{provider['remarks']}}</textarea>
+        </div>
+        <button type="submit" onclick="return confirm('Are you sure to reject this service provider')"
+          class="btn btn-danger">REJECT</button>
+      </form>
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

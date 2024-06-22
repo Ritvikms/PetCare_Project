@@ -1,0 +1,54 @@
+{% set title = "Pets List" %}
+{% set curPage = "userPets" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="content container bg-light py-5 px-4 mb-5">
+
+  <h5 class="text-center mb-4">{{title}}</h5>
+  <div class="border bg-white p-4">
+
+    <a href="/user/add-pet/" class="btn btn-theme-primary shadow mb-4">+ Add Pets</a>
+
+    <div class="table-responsive">
+      <table class="table table-bordered" id="table">
+        <thead>
+          <th style="width:8%">Image</th>
+          <th>Name</th>
+          <th>Species</th>
+          <th>Breed</th>
+          <th>Age</th>
+          <th>Sex</th>
+          <th>Action</th>
+        </thead>
+        <tbody>
+          {% for item in pets %}
+          <tr>
+            <td>
+              <a href="{{url_for('static',filename='images/pets/'+item['image_file_name'])}}" target="_blank">
+                <img src="{{url_for('static',filename='images/pets/'+item['image_file_name'])}}" alt="{{item['name']}}"
+                  style="width: 100%;" />
+              </a>
+            </td>
+            <td>{{item['name']}}</td>
+            <td>{{item['species']}}</td>
+            <td>{{item['breed']}}</td>
+            <td>{{item['age']}}</td>
+            <td>{{item['sex']}}</td>
+            <td>
+              <a href="/user/edit-pet?pet_id={{item['_id']}}" class="btn btn-sm btn-info">Edit</a>
+              <a href="/user/delete-pet?pet_id={{item['_id']}}" class="btn btn-sm btn-danger"
+                onclick="return confirm('Are you sure to delete to this pet?')">Delete</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

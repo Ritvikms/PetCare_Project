@@ -1,0 +1,63 @@
+{% set title = "Dashboard" %}
+{% set curPage = "hostHome" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="content container bg-light py-5 px-4 mb-5">
+  <h5 class="text-center">{{title}}</h5>
+  <div class="border bg-white" style="height:70vh;padding-top:5vh;">
+
+    <div class="d-flex justify-content-center">
+      <div class="row">
+        <div class="col-sm-6">
+          <table class="table border">
+            <tr>
+              <th>Status</th>
+              <td style="width:2%;">:</td>
+              <td>{{provider['status']}}</td>
+            </tr>
+            {% if provider['status'] == "APPROVED" %}
+            <tr>
+              <th>Commission&nbsp;%</th>
+              <td style="width:2%;">:</td>
+              <td>{{provider['commission']}}&nbsp;%</td>
+            </tr>
+            {% endif %}
+            {% if provider['status'] == "REJECTED" %}
+            <tr>
+              <th>Remarks</th>
+              <td style="width:2%;">:</td>
+              <td>{{provider['remarks']}}</td>
+            </tr>
+            {% endif %}
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-sm-3">
+        <div class="bg-danger-subtle p-3 text-center">
+          <h4>Properties</h4>
+          <h4>{{dashboard["properties"]}}</h5>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="bg-danger-subtle p-3 text-center">
+          <h4>Total Bookings</h4>
+          <h4>{{dashboard["bookings"]}}</h5>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="bg-danger-subtle p-3 text-center">
+          <h4>Registered Users</h4>
+          <h4>{{dashboard["users"]}}</h4>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

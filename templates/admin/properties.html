@@ -1,0 +1,52 @@
+{% set title = "Properties" %}
+{% set curPage = "hostProperties" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="content container bg-light py-5 px-4 mb-5">
+
+  <h5 class="text-center mb-4">{{title}}</h5>
+  <div class="border bg-white p-4">
+    <div class="table-responsive">
+      <table class="table table-bordered" id="table">
+        <thead>
+          <th style="width: 10%;">Image</th>
+          <th>Title / Rate</th>
+          <th>Category</th>
+          <th>Country</th>
+          <th>Max Guest</th>
+          <th>Bookings</th>
+          <th>Action</th>
+        </thead>
+        <tbody>
+          {% for item in properties %}
+          <tr>
+            <td>
+              <img src="/static/property/{{item['image_filename']}}" alt="" class="img-thumbnail w-100">
+            </td>
+            <td>
+              <span class="d-block mb-1">{{item['property_name']}}</span>
+              <span class="d-block">Per Night : $ {{'%0.2f'%item['rate_per_night']}}</span>
+            </td>
+            <td>{{item['category'][0]['category_name']}}</td>
+            <td>{{item['country'][0]['country_name']}}</td>
+            <td>{{item['max_guest']}}</td>
+            <td>
+              <a href="/admin/bookings/{{item['_id']}}/" class="btn btn-sm btn-warning">View bookings</a>
+            </td>
+            <td>
+              <a href="/admin/view-property/{{item['_id']}}/" class="btn btn-sm btn-primary">View</a>
+            </td>
+          </tr>
+          {% endfor %}
+
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

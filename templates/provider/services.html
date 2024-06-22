@@ -1,0 +1,46 @@
+{% set title = "Services List" %}
+{% set curPage = "providerServices" %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="content container bg-light py-5 px-4 mb-5">
+
+  <h5 class="text-center mb-4">{{title}}</h5>
+  <div class="border bg-white p-4">
+
+    <a href="/service-provider/add-service/" class="btn btn-theme-primary shadow mb-4">+ Add Service</a>
+
+    <div class="table-responsive">
+      <table class="table table-bordered" id="table">
+        <thead>
+          <th>Service</th>
+          <th>Price</th>
+          <th>Duration</th>
+          <th>Description</th>
+          <th>Action</th>
+        </thead>
+        <tbody>
+          {% for item in provider_services %}
+          <tr>
+            <td>{{item['service']['service_name']}}</td>
+            <td>${{item['price']}}</td>
+            <td>{{item['duration']}}</td>
+            <td>{{item['description']}}</td>
+            <td>
+              <a href="/service-provider/service-time-slots?psid={{item['_id']}}"
+                class="btn btn-sm btn-primary">Time&nbsp;Slots</a>
+              <a href="/service-provider/edit-service/{{item['_id']}}/" class="btn btn-sm btn-info">Edit</a>
+              <a href="/service-provider/delete-service/{{item['_id']}}/" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}
